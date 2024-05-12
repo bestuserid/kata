@@ -1,0 +1,67 @@
+import java.util.Scanner;
+
+public class Calculator {
+
+    private static final double MAX_LIMIT = 10; // Максимальное допустимое число
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("vvedite primer (e.g., 1 + 2): ");
+        String expression = scanner.nextLine();
+
+        double result = calculate(expression);
+
+        if (Double.isNaN(result)) {
+            System.out.println("invalid");
+        } else {
+            System.out.println("Result: " + result);
+        }
+    }
+
+    private static double calculate(String expression) {
+        String[] parts = expression.split(" ");
+
+        if (parts.length != 3) {
+            return Double.NaN;
+        }
+
+        double num1, num2;
+        char operation;
+
+        try {
+            num1 = Double.parseDouble(parts[0]);
+            if (Math.abs(num1) > MAX_LIMIT) {
+                System.out.println("limit error" + MAX_LIMIT + ")");
+                return Double.NaN;
+            }
+
+            operation = parts[1].charAt(0);
+
+            num2 = Double.parseDouble(parts[2]);
+            if (Math.abs(num2) > MAX_LIMIT) {
+                System.out.println("limit error (" + MAX_LIMIT + ")");
+                return Double.NaN;
+            }
+        } catch (NumberFormatException e) {
+            return Double.NaN;
+        }
+
+        switch (operation) {
+            case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '*':
+                return num1 * num2;
+            case '/':
+                if (num2 == 0) {
+                    System.out.println("error");
+                    return Double.NaN;
+                }
+                return num1 / num2;
+            default:
+                return Double.NaN;
+        }
+    }
+}
